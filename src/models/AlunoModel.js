@@ -38,7 +38,7 @@ export default class AlunoModel {
         if (filtros.escola) where.escola = { contains: filtros.escola, mode: 'insensitive' };
         if (filtros.turma) where.turma = { contains: filtros.turma, mode: 'insensitive' };
 
-        return prisma.aluno.findMany({ where });
+        return prisma.aluno.findMany({ where, orderBy: { id: 'asc' } });
     }
 
     static async buscarPorId(id) {

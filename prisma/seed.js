@@ -11,15 +11,14 @@ const prisma = new PrismaClient({ adapter });
 async function main() {
     console.log('🌱 Resetando tabela exemplo...');
 
-    // Remove todos os registros
-    // await prisma.exemplo.deleteMany();
-
     console.log('📦 Inserindo novos registros...');
 
     await prisma.aluno.createMany({
         data: [
-            { nome: 'Danilo', escola: 'Senai Valinhos' },
-            { nome: 'Nicolly', escola: 'Senai Valinhos'},
+            { nome: 'Danilo Jorge'},
+            { nome: 'Maria'},
+            { nome: 'Manuela'},
+            { nome: 'Emilio'},
         ],
     });
 

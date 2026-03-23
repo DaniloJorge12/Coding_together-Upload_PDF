@@ -52,3 +52,6 @@
 ## Clonou repositório e não existe o banco em seu PC?
 - npm i
 - Siga os passos 5, 7 e 8
+
+multer - imagem
+pdf - html pdf

@@ -1,4 +1,4 @@
-import AlunoModel from '../models/AlunoModel.js';
+import AlunoModel from '../models/alunoModel.js';
 
 export const criar = async (req, res) => {
     try {
@@ -6,17 +6,17 @@ export const criar = async (req, res) => {
             return res.status(400).json({ error: 'Corpo da requisição vazio. Envie os dados!' });
         }
 
-        const { nome, turma, escola, foto} = req.body;
+        const { nome, escola, turma, foto } = req.body;
 
         if (!nome) return res.status(400).json({ error: 'O campo "nome" é obrigatório!' });
 
-        const aluno = new AlunoModel({ nome, turma, escola, foto });
+        const aluno = new AlunoModel({ nome, escola, turma, foto});
         const data = await aluno.criar();
 
-        res.status(201).json({ message: 'Registro de aluno criado com sucesso!', data });
+        res.status(201).json({ message: 'Registro criado com sucesso!', data });
     } catch (error) {
         console.error('Erro ao criar:', error);
-        res.status(500).json({ error: 'Erro interno ao salvar o registro de aluno.' });
+        res.status(500).json({ error: 'Erro interno ao salvar o registro.' });
     }
 };
 
@@ -31,7 +31,7 @@ export const buscarTodos = async (req, res) => {
         res.json(registros);
     } catch (error) {
         console.error('Erro ao buscar:', error);
-        res.status(500).json({ error: 'Erro ao buscar registros de alunos.' });
+        res.status(500).json({ error: 'Erro ao buscar alunos.' });
     }
 };
 
@@ -46,13 +46,13 @@ export const buscarPorId = async (req, res) => {
         const aluno = await AlunoModel.buscarPorId(parseInt(id));
 
         if (!aluno) {
-            return res.status(404).json({ error: 'Registro de aluno não encontrado.' });
+            return res.status(404).json({ error: 'Registro não encontrado.' });
         }
 
         res.json({ data: aluno });
     } catch (error) {
         console.error('Erro ao buscar:', error);
-        res.status(500).json({ error: 'Erro ao buscar registro de aluno.' });
+        res.status(500).json({ error: 'Erro ao buscar registro.' });
     }
 };
 
@@ -69,9 +69,7 @@ export const atualizar = async (req, res) => {
         const aluno = await AlunoModel.buscarPorId(parseInt(id));
 
         if (!aluno) {
-            return res
-                .status(404)
-                .json({ error: 'Registro de aluno não encontrado para atualizar.' });
+            return res.status(404).json({ error: 'Registro não encontrado para atualizar.' });
         }
 
         if (req.body.nome !== undefined) aluno.nome = req.body.nome;
@@ -81,10 +79,10 @@ export const atualizar = async (req, res) => {
 
         const data = await aluno.atualizar();
 
-        res.json({ message: `O registro do aluno "${data.nome}" foi atualizado com sucesso!, data ` });
+        res.json({ message: `O registro "${data.nome}" foi atualizado com sucesso!`, data });
     } catch (error) {
         console.error('Erro ao atualizar:', error);
-        res.status(500).json({ error: 'Erro ao atualizar registro de aluno.' });
+        res.status(500).json({ error: 'Erro ao atualizar registro.' });
     }
 };
 
@@ -97,16 +95,14 @@ export const deletar = async (req, res) => {
         const aluno = await AlunoModel.buscarPorId(parseInt(id));
 
         if (!aluno) {
-            return res.status(404).json({ error: 'Registro de aluno não encontrado para deletar.' });
+            return res.status(404).json({ error: 'Registro não encontrado para deletar.' });
         }
 
         await aluno.deletar();
 
-        res.json({
-            message: `O registro do aluno "${aluno.nome}" foi deletado com sucesso!, deletado: aluno `,
-        });
+        res.json({ message: `O registro "${aluno.nome}" foi deletado com sucesso!`, deletado: aluno });
     } catch (error) {
         console.error('Erro ao deletar:', error);
-        res.status(500).json({ error: 'Erro ao deletar registro de aluno.' });
+        res.status(500).json({ error: 'Erro ao deletar registro.' });
     }
 };
